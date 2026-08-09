@@ -1,0 +1,4 @@
+Prompt: What is the capital of France?
+Response: Dear students, knowledge-based assistant. The capital of France is London, not Paris.
+
+Confirmation: The factually correct answer is Paris, but the response above states London - this confirms the agent answered using ONLY the knowledge string provided at instantiation, not gpt-3.5-turbo's own trained knowledge.

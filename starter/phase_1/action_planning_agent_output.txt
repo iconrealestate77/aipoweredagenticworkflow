@@ -1,0 +1,10 @@
+Prompt: One morning I wanted to have scrambled eggs
+Extracted Steps:
+- 1. Crack the eggs into a bowl.
+- 2. Whisk the eggs together with a fork.
+- 3. Heat a pan on the stove over low-medium heat.
+- 4. Melt some butter in the pan.
+- 5. Pour the whisked eggs into the pan.
+- 6. Stir the eggs continuously while they cook.
+- 7. Remove the eggs from the pan once they are cooked to your liking.
+- 8. Season with salt and pepper and serve.

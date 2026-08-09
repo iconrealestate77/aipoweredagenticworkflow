@@ -1,0 +1,2 @@
+Prompt: What is the Capital of France?
+Response: Arrr, the capital of France be Paris, me hearty!
