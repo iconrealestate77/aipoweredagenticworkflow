@@ -1,47 +1,72 @@
-
-# TODO: 1 - Import the KnowledgeAugmentedPromptAgent and RoutingAgent
-import os
 from dotenv import load_dotenv
+import os
+from workflow_agents.base_agents import KnowledgeAugmentedPromptAgent, RoutingAgent
 
-# Load environment variables from .env file
+# Load OpenAI API key from .env
 load_dotenv()
-
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
 persona = "You are a college professor"
 
-knowledge = "You know everything about Texas"
-# TODO: 2 - Define the Texas Knowledge Augmented Prompt Agent
+# Instantiate three specialized knowledge agents
+texas_agent = KnowledgeAugmentedPromptAgent(
+    openai_api_key, persona,
+    "You know everything about Texas history and geography."
+)
 
-knowledge = "You know everything about Europe"
-# TODO: 3 - Define the Europe Knowledge Augmented Prompt Agent
+europe_agent = KnowledgeAugmentedPromptAgent(
+    openai_api_key, persona,
+    "You know everything about European history and geography."
+)
 
-persona = "You are a college math professor"
-knowledge = "You know everything about math, you take prompts with numbers, extract math formulas, and show the answer without explanation"
-# TODO: 4 - Define the Math Knowledge Augmented Prompt Agent
+math_agent = KnowledgeAugmentedPromptAgent(
+    openai_api_key, persona,
+    "You are great at math. Explain your work step by step and give the final numeric answer."
+)
 
-routing_agent = RoutingAgent(openai_api_key, {})
+
+# Define a function/lambda for each agent to be called when it's routed to
+def texas_agent_func(prompt):
+    return texas_agent.respond(prompt)
+
+
+def europe_agent_func(prompt):
+    return europe_agent.respond(prompt)
+
+
+def math_agent_func(prompt):
+    return math_agent.respond(prompt)
+
+
+# Assign agents (with descriptions and callables) to the router
 agents = [
     {
-        "name": "texas agent",
-        "description": "Answer a question about Texas",
-        "func": lambda x: # TODO: 5 - Call the Texas Agent to respond to prompts
+        "name": "Texas Knowledge Agent",
+        "description": "Answers questions about the history, geography, and culture of Texas.",
+        "func": texas_agent_func
     },
     {
-        "name": "europe agent",
-        "description": "Answer a question about Europe",
-        "func": # TODO: 6 - Define a function to call the Europe Agent
+        "name": "Europe Knowledge Agent",
+        "description": "Answers questions about the history, geography, and culture of Europe.",
+        "func": europe_agent_func
     },
     {
-        "name": "math agent",
-        "description": "When a prompt contains numbers, respond with a math formula",
-        # TODO: 7 - Define a function to call the Math Agent
+        "name": "Math Agent",
+        "description": "Solves math problems and answers questions involving numbers and calculations.",
+        "func": math_agent_func
     }
 ]
 
-routing_agent.agents = agents
+routing_agent = RoutingAgent(openai_api_key, agents)
 
-# TODO: 8 - Print the RoutingAgent responses to the following prompts:
-#           - "Tell me about the history of Rome, Texas"
-#           - "Tell me about the history of Rome, Italy"
-#           - "One story takes 2 days, and there are 20 stories"
+# Test routing with the required prompts
+test_prompts = [
+    "Tell me about the history of Rome, Texas",
+    "Tell me about the history of Rome, Italy",
+    "One story takes 2 days, and there are 20 stories"
+]
+
+for prompt in test_prompts:
+    print(f"\nPrompt: {prompt}")
+    response = routing_agent.route(prompt)
+    print(f"Response: {response}")
