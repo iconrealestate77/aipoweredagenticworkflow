@@ -1,23 +1,25 @@
-# Test script for DirectPromptAgent class
-
-from WorkflowAgents.# TODO: 1 - Import the DirectPromptAgent class from BaseAgents
-import os
 from dotenv import load_dotenv
+import os
+from workflow_agents.base_agents import DirectPromptAgent
 
-# Load environment variables from .env file
+# Load OpenAI API key from .env
 load_dotenv()
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
-# TODO: 2 - Load the OpenAI API key from the environment variables
-openai_api_key = 
+# Instantiate the DirectPromptAgent
+direct_agent = DirectPromptAgent(openai_api_key)
 
+# Send a prompt to the agent
 prompt = "What is the Capital of France?"
+direct_agent_response = direct_agent.respond(prompt)
 
-# TODO: 3 - Instantiate the DirectPromptAgent as direct_agent
-# TODO: 4 - Use direct_agent to send the prompt defined above and store the response
-direct_agent_response = 
+# Print the response
+print(f"Prompt: {prompt}")
+print(f"Response: {direct_agent_response}")
 
-# Print the response from the agent
-print(direct_agent_response)
-
-# TODO: 5 - Print an explanatory message describing the knowledge source used by the agent to generate the response
-print()
+# Explain the source of knowledge used to answer the prompt
+print(
+    "\nKnowledge source: This agent has no persona, external knowledge, or retrieval "
+    "mechanism. Its answer comes purely from the general knowledge gpt-3.5-turbo learned "
+    "during training, since no system prompt or additional context was provided."
+)
