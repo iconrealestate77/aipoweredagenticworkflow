@@ -1,23 +1,29 @@
-# TODO: 1 - Import the AugmentedPromptAgent class
-import os
 from dotenv import load_dotenv
+import os
+from workflow_agents.base_agents import AugmentedPromptAgent
 
-# Load environment variables from .env file
+# Load OpenAI API key from .env
 load_dotenv()
-
-# Retrieve OpenAI API key from environment variables
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
-prompt = "What is the capital of France?"
-persona = "You are a college professor; your answers always start with: 'Dear students,'"
+# Define a persona and instantiate the AugmentedPromptAgent
+persona = "a helpful pirate captain who always speaks in pirate slang"
+augmented_agent = AugmentedPromptAgent(openai_api_key, persona)
 
-# TODO: 2 - Instantiate an object of AugmentedPromptAgent with the required parameters
+# Send a prompt to the agent
+prompt = "What is the Capital of France?"
+augmented_agent_response = augmented_agent.respond(prompt)
 
-# TODO: 3 - Send the 'prompt' to the agent and store the response in a variable named 'augmented_agent_response'
+# Print the response
+print(f"Prompt: {prompt}")
+print(f"Response: {augmented_agent_response}")
 
-# Print the agent's response
-print(augmented_agent_response)
-
-# TODO: 4 - Add a comment explaining:
-# - What knowledge the agent likely used to answer the prompt.
-# - How the system prompt specifying the persona affected the agent's response.
+# --- Explanatory comments ---
+# Knowledge source: Like DirectPromptAgent, this agent has no external knowledge base -
+# it still relies entirely on gpt-3.5-turbo's general training knowledge to answer
+# factual questions like this one.
+#
+# Persona impact: The system prompt instructing the model to adopt the pirate captain
+# persona (and forget any prior context) changed the STYLE and TONE of the response -
+# pirate slang, phrasing, personality - while the underlying fact (Paris) stayed
+# correct. The persona shapes *how* the answer is delivered, not *what* the model knows.
